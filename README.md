@@ -4,6 +4,8 @@
 
 STM32F4 Jenkins CI project is ... in the `STM32F407G-DISC1` discovery board.
 
+This project is based in [STM32F4 Basic](https://github.com/abelbarreira/stm32f4_basic).
+
 ## Setup
 
 - `scripts/setup_linux.sh`
