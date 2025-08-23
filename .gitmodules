@@ -1,0 +1,16 @@
+[submodule "stm32f4_prj/drivers/cmsis/device"]
+	path = stm32f4_prj/drivers/cmsis/device
+	url = https://github.com/STMicroelectronics/cmsis-device-f4
+	branch = master
+[submodule "stm32f4_prj/drivers/cmsis/core"]
+	path = stm32f4_prj/drivers/cmsis/core
+	url = https://github.com/ARM-software/CMSIS_5
+	branch = develop
+[submodule "stm32f4_prj/drivers/stm32f4xx-hal-driver"]
+	path = stm32f4_prj/drivers/stm32f4xx-hal-driver
+	url = https://github.com/STMicroelectronics/stm32f4xx-hal-driver
+	branch = master
+[submodule "templates/stm32f4_disc"]
+	path = templates/stm32f4_disc
+	url = https://github.com/STMicroelectronics/STM32CubeF4
+	branch = master

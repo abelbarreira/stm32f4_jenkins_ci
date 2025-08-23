@@ -2,28 +2,21 @@
 
 ```yaml
 AitA/
+├── .github
+│   ├── CONTRIBUTING.md
+│   └── CODE_OF_CONDUCT.md
 ├── docs
 │   ├── stm32_board
 │   │   ├── stm32_board.md
 │   │   ├── STM32_UM1472-discovery-kit.pdf
 │   │   └── STM32_stm32f4discovery.pdf
 │   ├── project_structure.md
+│   ├── connect_to_usb_based_serial_ports.md
 │   ├── SUMMARY.md
 │   └── dependencies.md
-├── build
-│   ├── stm32f4_prj
-│   │   └── core
-│   │       └── src
-│   │           ├── sysmem.o
-│   │           ├── main.o
-│   │           ├── syscalls.o
-│   │           ├── system_stm32f4xx.o
-│   │           ├── startup_stm32f407vgtx.o
-│   │           ├── stubs.o
-│   │           └── stm32f4xx_it.o
-│   ├── main.elf
-│   ├── main.map
-│   └── main.bin
+├── tools
+│   └── vscode
+│       └── stm32f4_socrates.code-profile
 ├── stm32f4_prj
 │   ├── core
 │   │   ├── src
@@ -34,11 +27,10 @@ AitA/
 │   │   │   ├── sysmem.c
 │   │   │   ├── syscalls.c
 │   │   │   └── startup_stm32f407vgtx.s
-│   │   ├── inc
-│   │   │   ├── stm32_assert.h
-│   │   │   ├── main.h
-│   │   │   └── stm32f4xx_it.h
-│   │   └── STM32F407VGTX_FLASH.ld
+│   │   └── inc
+│   │       ├── stm32_assert.h
+│   │       ├── main.h
+│   │       └── stm32f4xx_it.h
 │   ├── drivers
 │   │   ├── cmsis
 │   │   │   ├── core
@@ -468,9 +460,9 @@ AitA/
 │   └── tasks.json
 ├── scripts
 │   ├── templates_ll.sh
+│   ├── stm32f4_drivers_add_subs.sh
 │   ├── doc_generate_project_structure.py
-│   ├── cmsis.sh
-│   ├── remove_submodules.sh
+│   ├── stm32f4_drivers_remove_subs.sh
 │   └── setup_linux.sh
 ├── templates
 │   └── stm32f4_disc
@@ -523,7 +515,6 @@ AitA/
 ├── .clang-format
 ├── .gitmodules
 ├── Makefile
-├── my_notes.md
 ├── LICENSE
 ├── README.md
 └── stm32f4_jenkins_ci.code-workspace
