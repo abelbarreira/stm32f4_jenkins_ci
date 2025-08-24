@@ -52,9 +52,8 @@ int main(void) {
 
   /* Infinite loop */
   while (1) {
+    HAL_Delay(500); // 500 ms delay
     BSP_LedToggle();
-    for (volatile uint32_t i = 0; i < 10000000; i++)
-      ;
   }
 }
 
