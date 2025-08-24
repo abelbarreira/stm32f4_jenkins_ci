@@ -30,3 +30,5 @@ void BSP_LedOn(void) {
 void BSP_LedOff(void) {
   HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_RESET);
 }
+
+void BSP_LedToggle(void) { HAL_GPIO_TogglePin(LED_GPIO_PORT, LED_PIN); }

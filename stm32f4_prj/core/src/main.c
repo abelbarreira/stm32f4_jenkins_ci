@@ -52,10 +52,7 @@ int main(void) {
 
   /* Infinite loop */
   while (1) {
-    BSP_LedOn();
-    for (volatile uint32_t i = 0; i < 10000000; i++)
-      ; // much bigger loop
-    BSP_LedOff();
+    BSP_LedToggle();
     for (volatile uint32_t i = 0; i < 10000000; i++)
       ;
   }

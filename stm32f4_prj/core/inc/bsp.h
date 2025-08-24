@@ -25,5 +25,6 @@ void BSP_Init(void);
 // LED control
 void BSP_LedOn(void);
 void BSP_LedOff(void);
+void BSP_LedToggle(void);
 
 #endif // BSP_H
