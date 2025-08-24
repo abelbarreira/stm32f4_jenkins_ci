@@ -18,6 +18,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "bsp.h"
 
 /** @addtogroup STM32F4xx_LL_Examples
  * @{
@@ -42,20 +43,21 @@ void SystemClock_Config(void);
  * @retval None
  */
 int main(void) {
+  HAL_Init();
+
   /* Configure the system clock to 168 MHz */
   SystemClock_Config();
 
-  /* Add your application code here */
-  // Example: toggle GPIOD12 (green LED on Discovery board)
-  RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
-  GPIOD->MODER |= (1U << (12 * 2));
+  BSP_Init();
 
   /* Infinite loop */
   while (1) {
-    /* USER CODE BEGIN 3 */
-    GPIOD->ODR ^= (1U << 12); // toggle PD12
-    for (volatile int i = 0; i < 100000; i++)
-      ; // delay
+    BSP_LedOn();
+    for (volatile uint32_t i = 0; i < 10000000; i++)
+      ; // much bigger loop
+    BSP_LedOff();
+    for (volatile uint32_t i = 0; i < 10000000; i++)
+      ;
   }
 }
 

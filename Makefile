@@ -69,8 +69,7 @@ $(BUILD)/$(TARGET).elf: $(OBJ)
 # Flash via OpenOCD
 flash: all
 	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
-	        -c "program $(BUILD)/$(TARGET).elf verify reset" \
-	        -c "reset halt"
+	        -c "program $(BUILD)/$(TARGET).elf verify reset"
 
 # Start OpenOCD server
 # start:
@@ -80,7 +79,7 @@ flash: all
 debug: all
 	gdb-multiarch $(BUILD)/$(TARGET).elf \
 		-ex "target remote localhost:3333" \
-		-ex "monitor reset halt" \
+		-ex "monitor reset" \
 		-ex "continue"
 
 # Clean build files
