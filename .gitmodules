@@ -14,3 +14,7 @@
 	path = templates/stm32f4_disc
 	url = https://github.com/STMicroelectronics/STM32CubeF4
 	branch = master
+[submodule "stm32f4_prj/tests/unity"]
+	path = stm32f4_prj/tests/unity
+	url = https://github.com/ThrowTheSwitch/Unity
+	branch = master
