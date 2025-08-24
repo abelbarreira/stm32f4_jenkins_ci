@@ -2,9 +2,9 @@
 
 ## About The Project
 
-STM32F4 Jenkins CI project is ... in the `STM32F407G-DISC1` discovery board.
+STM32F4 Jenkins CI project deploys **[Jenkins](https://www.jenkins.io/)** local server where a `STM32F407G-DISC1` discovery board is connected in order to build, load (flash) and execute basic **[Unity](https://www.throwtheswitch.org/unity)** tests.
 
-This project is based in [STM32F4 Basic](https://github.com/abelbarreira/stm32f4_basic).
+This is is based in [STM32F4 Basic](https://github.com/abelbarreira/stm32f4_basic).
 
 ## Setup
 
