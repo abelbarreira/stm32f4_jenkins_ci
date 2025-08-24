@@ -1,5 +1,9 @@
 # STM32F4 Jenkins CI
 
+[![C](https://img.shields.io/badge/C-95%2F99%2F11%2F17%2F23-blue)](https://en.cppreference.com/index.html)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/abelbarreira/stm32f4_jenkins_ci/blob/main/LICENSE)
+[![Pull Requests Welcome](https://img.shields.io/badge/pull%20requests-welcome-brightgreen.svg)](https://github.com/abelbarreira/stm32f4_jenkins_ci/blob/main/.github/CONTRIBUTING.md)
+
 ## About The Project
 
 STM32F4 Jenkins CI project deploys **[Jenkins](https://www.jenkins.io/)** local server where a `STM32F407G-DISC1` discovery board is connected in order to build, load (flash) and execute basic **[Unity](https://www.throwtheswitch.org/unity)** tests.
