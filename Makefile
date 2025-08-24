@@ -14,7 +14,7 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -O2 -Wall -Wextra -ffreestanding \
          -Istm32f4_prj/core/inc \
          -Istm32f4_prj/drivers/cmsis/core/CMSIS/Core/Include \
          -Istm32f4_prj/drivers/cmsis/device/Include \
-		 -Istm32f4_prj/drivers/stm32f4xx-hal-driver/Inc \
+         -Istm32f4_prj/drivers/stm32f4xx-hal-driver/Inc \
          -DSTM32F407xx
 
 # Linker flags
@@ -32,6 +32,14 @@ SRC += \
     stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c \
     stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim.c \
     stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c
+
+# Add UNIT_TEST define and include path if requested
+ifeq ($(UNIT_TEST),1)
+    CFLAGS += -DUNIT_TEST -Istm32f4_prj/tests/unity/src -Istm32f4_prj/tests
+    SRC += stm32f4_prj/tests/unity/src/unity.c \
+           stm32f4_prj/tests/test_runner.c \
+           stm32f4_prj/tests/test_bsp.c
+endif
 
 # Object files
 OBJ = $(SRC:%.c=$(BUILD)/%.o)
@@ -89,3 +97,7 @@ clean:
 # Combined rule: clean, build and flash
 do: clean all flash
 
+# Run unit tests build
+test: clean
+	$(MAKE) UNIT_TEST=1
+	$(MAKE) flash

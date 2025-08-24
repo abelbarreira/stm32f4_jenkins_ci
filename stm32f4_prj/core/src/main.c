@@ -20,6 +20,10 @@
 #include "main.h"
 #include "bsp.h"
 
+#ifdef UNIT_TEST
+#include "test_runner.h"
+#endif
+
 /** @addtogroup STM32F4xx_LL_Examples
  * @{
  */
@@ -49,6 +53,10 @@ int main(void) {
   SystemClock_Config();
 
   BSP_Init();
+
+#ifdef UNIT_TEST
+  unit_test_runner();
+#endif
 
   /* Infinite loop */
   while (1) {
