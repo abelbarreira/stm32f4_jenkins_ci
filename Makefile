@@ -21,13 +21,17 @@ CFLAGS = -mcpu=cortex-m4 -mthumb -O2 -Wall -Wextra -ffreestanding \
 LDFLAGS= -T stm32f4_prj/STM32F407VGTX_FLASH.ld -nostartfiles -Wl,-Map=$(BUILD)/$(TARGET).map
 
 # Source files
-SRC = stm32f4_prj/core/src/main.c \
-	  stm32f4_prj/core/src/startup_stm32f407vgtx.s \
-      stm32f4_prj/core/src/stm32f4xx_it.c \
-      stm32f4_prj/core/src/stubs.c \
-	  stm32f4_prj/core/src/syscalls.c \
-	  stm32f4_prj/core/src/sysmem.c \
-	  stm32f4_prj/core/src/system_stm32f4xx.c
+SRC = stm32f4_prj/core/src/startup_stm32f407vgtx.s
+SRC += $(shell find stm32f4_prj/core/src/ -name '*.c')
+# SRC += $(wildcard stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/*.c)
+SRC += \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal.c \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma.c \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim_ex.c \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_gpio.c \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim.c \
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c
 
 # Object files
 OBJ = $(SRC:%.c=$(BUILD)/%.o)

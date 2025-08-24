@@ -30,7 +30,8 @@ AitA/
 │   │   └── inc
 │   │       ├── stm32_assert.h
 │   │       ├── main.h
-│   │       └── stm32f4xx_it.h
+│   │       ├── stm32f4xx_it.h
+│   │       └── stm32f4xx_hal_conf.h
 │   ├── drivers
 │   │   ├── cmsis
 │   │   │   ├── core
