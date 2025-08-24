@@ -19,6 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "bsp.h"
+#include "usart.h"
+#include <stdio.h>
 
 #ifdef UNIT_TEST
 #include "test_runner.h"
@@ -52,7 +54,17 @@ int main(void) {
   /* Configure the system clock to 168 MHz */
   SystemClock_Config();
 
+  // Ensure HAL_RCC_GetPCLK1Freq() returns the correct clock for baud
+  // calculation.
+  SystemCoreClockUpdate();
+
+  MX_USART2_UART_Init();
+
   BSP_Init();
+
+  // uint32_t pclk1 = HAL_RCC_GetPCLK1Freq();
+  // uint32_t sysclk = HAL_RCC_GetSysClockFreq();
+  // printf("PCLK1: %lu Hz, SYSCLK: %lu Hz\n", pclk1, sysclk);
 
 #ifdef UNIT_TEST
   unit_test_runner();
@@ -87,37 +99,29 @@ int main(void) {
  * @retval None
  */
 void SystemClock_Config(void) {
-  /* Enable HSE oscillator */
-  LL_RCC_HSE_Enable();
-  while (LL_RCC_HSE_IsReady() != 1) {
-  };
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /* Set FLASH latency */
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
+  // Configure HSE and PLL
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 336;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
-  /* Main PLL configuration and activation */
-  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336,
-                              LL_RCC_PLLP_DIV_2);
-  LL_RCC_PLL_Enable();
-  while (LL_RCC_PLL_IsReady() != 1) {
-  };
+  // Select PLL as system clock source
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK |
+                                RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  /* Sysclk activation on the main PLL */
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
-  while (LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL) {
-  };
-
-  /* Set APB1 & APB2 prescaler */
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
-
-  /* Set systick to 1ms */
-  SysTick_Config(168000000 / 1000);
-
-  /* Update CMSIS variable (which can be updated also through
-   * SystemCoreClockUpdate function) */
-  SystemCoreClock = 168000000;
+  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE END      ============== */

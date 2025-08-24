@@ -31,7 +31,8 @@ SRC += \
     stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_gpio.c \
     stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c \
     stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim.c \
-    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c
+    stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c \
+	stm32f4_prj/drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_uart.c
 
 # Add UNIT_TEST define and include path if requested
 ifeq ($(UNIT_TEST),1)

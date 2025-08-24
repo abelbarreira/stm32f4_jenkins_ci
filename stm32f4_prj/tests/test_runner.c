@@ -13,6 +13,8 @@ void test_led_should_turn_on(void);
 void test_led_should_turn_off(void);
 
 void unit_test_runner(void) {
+  printf("unit_test_runner()\n");
+
   // Initialize Unity
   UNITY_BEGIN();
 
