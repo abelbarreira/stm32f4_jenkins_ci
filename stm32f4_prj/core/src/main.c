@@ -19,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "bsp.h"
-#include "usart.h"
+#include "protocol.h"
 #include <stdio.h>
 
 #ifdef UNIT_TEST
@@ -43,6 +43,11 @@ void SystemClock_Config(void);
 
 /* Private functions ---------------------------------------------------------*/
 
+static uint8_t cmd_data[PROTOCOL_MAX_BUFFER_SIZE];
+static uint8_t reply_data[PROTOCOL_MAX_BUFFER_SIZE];
+static uint16_t cmd_data_len;
+static uint16_t reply_data_len;
+
 /**
  * @brief  Main program
  * @param  None
@@ -58,7 +63,7 @@ int main(void) {
   // calculation.
   SystemCoreClockUpdate();
 
-  MX_USART2_UART_Init();
+  protocol_init();
 
   BSP_Init();
 
@@ -72,8 +77,15 @@ int main(void) {
 
   /* Infinite loop */
   while (1) {
-    HAL_Delay(500); // 500 ms delay
-    BSP_LedToggle();
+    if (protocol_receive_cmd(cmd_data, &cmd_data_len) == PROT_RET_OK) {
+      // process_command(cmd_data, cmd_data_len, reply_data, &reply_data_len);
+
+      reply_data_len = 0;
+      protocol_send_reply(reply_data, reply_data_len);
+      protocol_send_reply((uint8_t *)"OK\r\n", 4);
+    } else {
+      protocol_send_reply((uint8_t *)"ERROR\r\n", 7);
+    }
   }
 }
 
@@ -145,11 +157,3 @@ void assert_failed(uint8_t *file, uint32_t line) {
   }
 }
 #endif
-
-/**
- * @}
- */
-
-/**
- * @}
- */
