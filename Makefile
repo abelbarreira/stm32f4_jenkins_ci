@@ -1,3 +1,6 @@
+# Provide a temp folder for Windows
+export TMP := C:/msys64/tmp
+
 # Target
 TARGET = main
 BUILD  = build

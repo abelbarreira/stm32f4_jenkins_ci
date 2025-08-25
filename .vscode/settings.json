@@ -1,0 +1,5 @@
+{
+    "terminal.integrated.env.windows": {
+        "PATH": "C:\\msys64\\usr\\bin;${env:PATH}"
+    }
+}
