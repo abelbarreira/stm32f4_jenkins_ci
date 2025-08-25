@@ -13,7 +13,7 @@ This is is based in [STM32F4 Basic](https://github.com/abelbarreira/stm32f4_basi
 ## Setup
 
 - `scripts/setup_linux.sh`
-- `scripts/stm32f4_drivers_add_subs.sh`
+- `scripts/stm32f4_drivers_add_or_update_subs.sh`
 
 ## Documentation
 
