@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 STM32 Commands Runner
 ----------------------

@@ -45,10 +45,6 @@ static prot_ret_t handle_echo(prot_data_t *data) {
 // Command 0x0002: Toggle LED
 static prot_ret_t handle_led_toggle(prot_data_t *data) {
   BSP_LedToggle();
-  //   HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12); // Example LED pin
-  //   data->data_len =
-  //       snprintf((char *)data->data, PROTOCOL_MAX_BUFFER_SIZE, "LED
-  //       toggled");
   protocol_set_status(PROT_STATUS_OK, data);
   return PROT_RET_OK;
 }
@@ -59,6 +55,8 @@ static prot_ret_t unit_test(prot_data_t *data) {
 
 #ifdef UNIT_TEST
   unit_test_runner();
+#else
+  printf("Not UNIT_TEST defined.\n");
 #endif
 
   return PROT_RET_OK;

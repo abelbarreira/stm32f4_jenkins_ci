@@ -7,6 +7,11 @@ pushd $ROOT_DIR > /dev/null
 
 echo
 
-./scripts/stm32_commands_runner.py -p /dev/ttyUSB0 -f ./stm32f4_prj/tests/run_test_commands.txt -b 115200
+# My USB TTL is Future Technology Devices International, Ltd FT232 Serial (UART) IC
+
+SERIAL_PORT=$(./scripts/detect_serial_port.py FT232 Serial | tr -d '\r\n')
+echo $SERIAL_PORT
+
+./scripts/stm32_commands_runner.py -p $SERIAL_PORT -f ./stm32f4_prj/tests/run_test_commands.txt -b 115200
 
 popd > /dev/null
