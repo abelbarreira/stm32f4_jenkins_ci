@@ -2,6 +2,11 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Setup Python",
+      "type": "shell",
+      "command": "./scripts/setup_python.sh",
+    },
+    {
       "label": "stm32f4 drivers add or update submodules",
       "type": "shell",
       "command": "./scripts/stm32f4_drivers_add_or_update_subs.sh",
