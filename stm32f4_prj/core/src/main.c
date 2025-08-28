@@ -19,12 +19,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "bsp.h"
+#include "command_processor.h"
 #include "protocol.h"
 #include <stdio.h>
-
-#ifdef UNIT_TEST
-#include "test_runner.h"
-#endif
 
 /** @addtogroup STM32F4xx_LL_Examples
  * @{
@@ -43,10 +40,7 @@ void SystemClock_Config(void);
 
 /* Private functions ---------------------------------------------------------*/
 
-static uint8_t cmd_data[PROTOCOL_MAX_BUFFER_SIZE];
-static uint8_t reply_data[PROTOCOL_MAX_BUFFER_SIZE];
-static uint16_t cmd_data_len;
-static uint16_t reply_data_len;
+static prot_data_t data;
 
 /**
  * @brief  Main program
@@ -64,6 +58,7 @@ int main(void) {
   SystemCoreClockUpdate();
 
   protocol_init();
+  command_processor_init();
 
   BSP_Init();
 
@@ -71,20 +66,20 @@ int main(void) {
   // uint32_t sysclk = HAL_RCC_GetSysClockFreq();
   // printf("PCLK1: %lu Hz, SYSCLK: %lu Hz\n", pclk1, sysclk);
 
-#ifdef UNIT_TEST
-  unit_test_runner();
-#endif
+  printf("Waiting for commands...\n");
 
   /* Infinite loop */
   while (1) {
-    if (protocol_receive_cmd(cmd_data, &cmd_data_len) == PROT_RET_OK) {
-      // process_command(cmd_data, cmd_data_len, reply_data, &reply_data_len);
-
-      reply_data_len = 0;
-      protocol_send_reply(reply_data, reply_data_len);
-      protocol_send_reply((uint8_t *)"OK\r\n", 4);
+    if (protocol_receive_command(&data) == PROT_RET_OK) {
+      command_processor_execute(&data);
+      protocol_send_response(&data);
     } else {
-      protocol_send_reply((uint8_t *)"ERROR\r\n", 7);
+      // Reception failed: respond with error
+      data.cmd_type = 0x0000;
+      data.data_len = snprintf((char *)data.data, PROTOCOL_MAX_BUFFER_SIZE,
+                               "Receive error");
+      protocol_set_status(PROT_STATUS_ERROR, &data);
+      protocol_send_response(&data);
     }
   }
 }
