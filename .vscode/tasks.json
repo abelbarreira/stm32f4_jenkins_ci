@@ -10,6 +10,11 @@
       "label": "stm32f4 drivers add or update submodules",
       "type": "shell",
       "command": "./scripts/stm32f4_drivers_add_or_update_subs.sh",
-    }
+    },
+    {
+      "label": "Unit Test",
+      "type": "shell",
+      "command": "./scripts/unit_test_run.sh",
+    },
   ]
 }

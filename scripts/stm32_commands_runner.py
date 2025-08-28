@@ -15,9 +15,9 @@ responses from the board into a log file.
   (with timestamps) for traceability.
 - Supports appending logs instead of overwriting via `--append`.
 
-Usage:
-    python stm32_commands_runner.py -p COM3 -f commands.txt
-    python stm32_commands_runner.py -p /dev/ttyUSB0 -f commands.txt -b 9600 -o results.log --append
+Behavior Update:
+- Multi-line responses are fully captured until a line containing "OK" or "ERROR"
+  is received, then the function returns.
 """
 
 import serial
@@ -27,28 +27,39 @@ import argparse
 from pathlib import Path
 
 
-def send_command(ser: serial.Serial, cmd: str) -> str:
+def send_command(ser: serial.Serial, cmd: str) -> list[str]:
     """
-    Send a single command to STM32 over UART and return the response.
+    Send a single command to STM32 over UART and return the response lines.
+
+    Reads until a line containing 'OK' or 'ERROR' is received.
 
     Args:
         ser (serial.Serial): Open serial connection to STM32.
         cmd (str): The command string to send (newline added if missing).
 
     Returns:
-        str: The decoded response received from STM32 (without newline).
+        list[str]: List of decoded response lines from STM32 (without newlines).
     """
     if not cmd.endswith("\n"):
         cmd += "\n"  # Ensure newline terminator
 
     ser.write(cmd.encode())
-    time.sleep(0.1)
-    response: str = ser.readline().decode(errors="ignore").strip()
+    time.sleep(0.1)  # Small delay before reading
 
-    print(f"> {cmd.strip()} | < {response}")
-    logging.info(f"CMD: {cmd.strip()} | RESP: {response}")
-
-    return response
+    response_lines = []
+    while True:
+        line = ser.readline().decode(errors="ignore").strip()
+        if line:  # Only log non-empty lines
+            print(f"> {cmd.strip()} | < {line}")
+            logging.info(f"CMD: {cmd.strip()} | RESP: {line}")
+            response_lines.append(line)
+            # Stop reading when line contains OK or ERROR
+            if "OK" in line or "ERROR" in line:
+                break
+        else:
+            # If timeout occurs, continue reading (or break after some max tries)
+            time.sleep(0.05)
+    return response_lines
 
 
 def parse_args() -> argparse.Namespace:
@@ -68,17 +79,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def setup_logging(input_file: str, output: str | None = None, append: bool = False) -> Path:
-    """
-    Configure logging system and return the resolved log file path.
-
-    Args:
-        input_file (str): Path to command input file.
-        output (str | None, optional): Optional explicit log filename.
-        append (bool, optional): Whether to append instead of overwrite.
-
-    Returns:
-        Path: Path to the log file being used.
-    """
+    """Configure logging system and return the resolved log file path."""
     log_file: Path = Path(output) if output else Path(input_file).with_suffix(".log")
     logging.basicConfig(
         filename=log_file,
@@ -95,17 +96,14 @@ def main() -> None:
     log_file: Path = setup_logging(args.file, args.output, args.append)
 
     try:
-        # Open serial port safely with context manager
         with serial.Serial(args.port, args.baudrate, timeout=1) as ser:
-            time.sleep(2)  # Allow time for STM32 reset (if auto-reset occurs)
+            time.sleep(2)  # Allow time for STM32 reset
 
             print(f"Connected to STM32F4 on {args.port} @ {args.baudrate} baud")
             logging.info("=== Starting STM32 Unit Test Session ===")
 
-            # Load commands from file
             commands: list[str] = [line.strip() for line in open(args.file) if line.strip()]
 
-            # Send each command
             for cmd in commands:
                 send_command(ser, cmd)
 
