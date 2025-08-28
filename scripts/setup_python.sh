@@ -30,6 +30,9 @@ fi
 
 python -m pipx ensurepath
 
+# Install pyserial in home directory
+pip install --user pyserial
+
 popd > /dev/null
 
 echo "✅ Python environment setup complete."
