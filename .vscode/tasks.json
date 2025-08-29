@@ -7,7 +7,7 @@
       "command": "./scripts/setup_python.sh",
     },
     {
-      "label": "stm32f4 drivers add or update submodules",
+      "label": "STM32F4 Drivers Add/Update submodules",
       "type": "shell",
       "command": "./scripts/stm32f4_drivers_add_or_update_subs.sh",
     },
