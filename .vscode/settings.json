@@ -1,5 +1,5 @@
 {
     "terminal.integrated.env.windows": {
-        "PATH": "C:\\msys64\\usr\\bin;${env:PATH}"
+        "PATH": "C:\\msys64\\usr\\bin;C:\\OpenOCD-20250710-0.12.0\\bin;${env:PATH}"
     }
 }
