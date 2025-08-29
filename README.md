@@ -10,10 +10,22 @@ STM32F4 Jenkins CI project deploys **[Jenkins](https://www.jenkins.io/)** local 
 
 This is is based in [STM32F4 Basic](https://github.com/abelbarreira/stm32f4_basic).
 
+## Environment
+
+This environment is ready to work with [Git and Git Bash Scripts](https://git-scm.com/downloads) with [Visual Studio Code](https://code.visualstudio.com/) using following profile:
+
+- `tools/vscode/stm32f4_socrates.code-profile`
+
 ## Setup
 
-- `scripts/setup_linux.sh`
+The project will probably end up with a [Docker](https://www.docker.com/) container to centralize the full setup. In addition, here is the local setup environment:
+
+- `scripts/setup_linux.sh`, or similar setup for Windows [I will work on this]
+  - For Windows, I guess the best choice is [MSYS2](https://www.msys2.org/) with [`UCRT64` environment](https://www.msys2.org/docs/environments/#__tabbed_1_1).
+- `scripts/setup_python.sh`
+  - Requires [`pyenv`](https://github.com/pyenv/pyenv)
 - `scripts/stm32f4_drivers_add_or_update_subs.sh`
+- `scripts/unity_add_or_update_sub.sh` (for Unity Testing)
 
 ## Documentation
 
