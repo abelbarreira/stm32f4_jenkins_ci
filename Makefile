@@ -84,10 +84,14 @@ $(BUILD)/$(TARGET).elf: $(OBJ)
 	@echo "Flash used: $(shell arm-none-eabi-size -A $@ | grep FLASH | awk '{print $$2}') bytes"
 	@echo "RAM used:   $(shell arm-none-eabi-size -A $@ | grep RAM | awk '{print $$2}') bytes"
 
-# Flash via OpenOCD
+# # Flash via OpenOCD
+# flash: all
+# 	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
+# 	        -c "program $(BUILD)/$(TARGET).elf verify reset"
+# Run OpenOCD as a detached daemon
+# pgrep -af openocd, kill 12345
 flash: all
-	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
-	        -c "program $(BUILD)/$(TARGET).elf verify reset"
+	nohup openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD)/$(TARGET).elf verify reset" > flash.log 2>&1 &
 
 # Start OpenOCD server
 # start:
@@ -109,5 +113,5 @@ do: clean all flash
 
 # Run unit tests build
 test: clean
-	$(MAKE) UNIT_TEST=1
+	$(MAKE) UNIT_TEST=1 all
 	$(MAKE) flash
