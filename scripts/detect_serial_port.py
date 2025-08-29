@@ -22,6 +22,7 @@ Exit codes:
 """
 
 import sys
+import platform
 from serial.tools import list_ports
 
 def find_serial_port(keyword=None):
@@ -29,14 +30,23 @@ def find_serial_port(keyword=None):
     if not ports:
         return None
 
+    system = platform.system()
+
     if keyword:
+        keyword = keyword.lower()
         for port in ports:
-            desc = f"{port.device} {port.description}".lower()
-            if keyword.lower() in desc:
+            if system == "Windows":
+                # Check device, description, manufacturer, and hwid
+                desc = f"{port.device} {port.description} {port.hwid} {port.manufacturer} {port.product}".lower()
+            else:
+                # Linux/macOS: check device and description
+                desc = f"{port.device} {port.description} {port.hwid}".lower()
+
+            if keyword in desc:
                 return port.device
-        return None  # No match found
+        return None
     else:
-        return ports[0].device  # Default: first available
+        return ports[0].device
 
 if __name__ == "__main__":
     keyword = sys.argv[1] if len(sys.argv) > 1 else None
