@@ -1,5 +1,8 @@
 # Provide a temp folder for Windows
-export TMP := C:/msys64/tmp
+# export TMP := C:/msys64/tmp
+# export TMP := $(shell echo $$TMP)
+TMP ?= /tmp
+export TMP
 
 # Declare phony targets
 .PHONY: all clean flash debug do test
