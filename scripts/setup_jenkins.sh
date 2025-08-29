@@ -45,4 +45,10 @@ echo "   sudo cat /var/lib/jenkins/secrets/initialAdminPassword"
 echo
 echo "========================================================="
 
+# Add Jenkins user to plugdev group
+sudo usermod -aG plugdev jenkins
+
+# restart jenkins
+sudo systemctl restart jenkins
+
 popd > /dev/null
