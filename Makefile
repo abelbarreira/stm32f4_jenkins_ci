@@ -1,6 +1,9 @@
 # Provide a temp folder for Windows
 export TMP := C:/msys64/tmp
 
+# Declare phony targets
+.PHONY: all clean flash debug do test
+
 # Target
 TARGET = main
 BUILD  = build
