@@ -15,11 +15,20 @@ pipeline {
                 ])
             }
         }
-        stage('Setup Submodules') {
+
+        stage('Setup Submodules (CMSIS + HAL)') {
             steps {
                 echo "=== Setting up Git submodules (CMSIS + HAL) ==="
                 sh 'chmod +x scripts/stm32f4_drivers_add_or_update_subs.sh'
                 sh './scripts/stm32f4_drivers_add_or_update_subs.sh'
+            }
+        }
+
+        stage('Setup Unity Submodule') {
+            steps {
+                echo "=== Setting up Unity test framework submodule ==="
+                sh 'chmod +x scripts/unity_add_or_update_sub.sh'
+                sh './scripts/unity_add_or_update_sub.sh'
             }
         }
 
