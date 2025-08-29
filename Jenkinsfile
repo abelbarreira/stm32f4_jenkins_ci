@@ -32,6 +32,12 @@ pipeline {
             }
         }
 
+        stage('Setup Python dependencies') {
+            steps {
+                sh 'python3 -m pip install --user pyserial'
+            }
+        }
+
         stage('Build & Flash') {
             steps {
                 echo "=== Building firmware and flashing board ==="
