@@ -43,6 +43,11 @@ pipeline {
             steps {
                 echo "=== Running unit tests on hardware ==="
                 sh './scripts/unit_test_run.sh'
+                script {
+                    if (!fileExists('stm32f4_prj/tests/run_test_commands.log')) {
+                        error "❌ Unit test log not found!"
+                    }
+                }
             }
         }
     }
@@ -55,7 +60,7 @@ pipeline {
             echo "❌ Build or Tests failed!"
         }
         always {
-            archiveArtifacts artifacts: 'build/**/*.elf, build/**/*.bin', fingerprint: true
+            archiveArtifacts artifacts: 'build/**/*.elf, build/**/*.bin, stm32f4_prj/tests/*.log', fingerprint: true
         }
     }
 }
