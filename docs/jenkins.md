@@ -2,21 +2,15 @@
 
 About Jenkins setup and environment.
 
-## On Linux Ubuntu
+## Environment
+
+### On Linux Ubuntu
 
 - `scripts\setup_linux.sh`
 - `scripts\setup_python.sh`
 - `scripts\setup_jenkins.sh`
 
-- Start Jenkins: `sudo systemctl start jenkins`
-- Open Jenkins at http://localhost:8080
-- Create a pipeline job using the `Jenkinsfile`
-- Run the job
-  - Build with make test
-  - Flash via OpenOCD
-  - Run tests via scripts/unit_test_run.sh
-
-## On Windows
+### On Windows
 
 The idea is to create an WSL Distribution with exactly the same setup.
 
@@ -37,7 +31,7 @@ The idea is to create an WSL Distribution with exactly the same setup.
    3. `scripts\setup_jenkins.sh`
 9. Exit from distribution: `exit`
 
-### Export
+#### Export
 
 1. Export distribution:
    1. `wsl --shutdown`
@@ -59,10 +53,8 @@ Following steps describe how to import the distribution file `ubuntu-24.04-jenki
 
 Then run distribution: `wsl --distribution ubuntu-24.04-jenkins-ci` and...
 
-- Start Jenkins: `sudo systemctl start jenkins`
+## Start Jenkins
+
+- Start Jenkins: `sudo systemctl start jenkins` and check if it is running `sudo systemctl status jenkins`
 - Open Jenkins at http://localhost:8080
-- Create a pipeline job using the `Jenkinsfile`
-- Run the job
-  - Build with make test
-  - Flash via OpenOCD
-  - Run tests via scripts/unit_test_run.sh
+- Refer to [Jenkins: Launching Jobs](jenkins_launching_job.md)

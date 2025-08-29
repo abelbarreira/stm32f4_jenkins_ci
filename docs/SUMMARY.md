@@ -4,5 +4,5 @@
 - [Dependencies](dependencies.md)
 - [STM32 Board](stm32_board/stm32_board.md)
 - [Connect to USB based serial ports](connect_to_usb_based_serial_ports.md)
-- [Jenkins](jenkins.md):
+- [Jenkins](jenkins.md)
   - [Jenkins: Launching Jobs](jenkins_launching_job.md)
