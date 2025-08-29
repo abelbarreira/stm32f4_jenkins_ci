@@ -6,6 +6,15 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/abelbarreira/stm32f4_jenkins_ci.git']]
+                ])
+            }
+        }
         stage('Build & Flash') {
             steps {
                 echo "=== Building firmware and flashing board ==="
