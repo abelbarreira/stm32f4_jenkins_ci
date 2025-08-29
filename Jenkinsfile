@@ -15,6 +15,14 @@ pipeline {
                 ])
             }
         }
+        stage('Setup Submodules') {
+            steps {
+                echo "=== Setting up Git submodules (CMSIS + HAL) ==="
+                sh 'chmod +x scripts/stm32f4_drivers_add_or_update_subs.sh'
+                sh './scripts/stm32f4_drivers_add_or_update_subs.sh'
+            }
+        }
+
         stage('Build & Flash') {
             steps {
                 echo "=== Building firmware and flashing board ==="
