@@ -74,9 +74,9 @@ $(BUILD)/$(TARGET).elf: $(OBJ)
 #	@echo "===== Symbols by Size ====="
 #	$(NM) -S --size-sort $@
 	@echo "===== Quick Memory Summary ====="
-	$(SIZE) build/$(TARGET).elf
-	@echo "Flash used: $(shell arm-none-eabi-size -A build/$(TARGET).elf | grep FLASH | awk '{print $$2}') bytes"
-	@echo "RAM used:   $(shell arm-none-eabi-size -A build/$(TARGET).elf | grep RAM | awk '{print $$2}') bytes"
+	$(SIZE) $@
+	@echo "Flash used: $(shell arm-none-eabi-size -A $@ | grep FLASH | awk '{print $$2}') bytes"
+	@echo "RAM used:   $(shell arm-none-eabi-size -A $@ | grep RAM | awk '{print $$2}') bytes"
 
 # Flash via OpenOCD
 flash: all
