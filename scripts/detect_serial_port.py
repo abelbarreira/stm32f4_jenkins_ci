@@ -25,6 +25,7 @@ import sys
 import platform
 from serial.tools import list_ports
 
+
 def find_serial_port(keyword=None):
     ports = list(list_ports.comports())
     if not ports:
@@ -40,13 +41,14 @@ def find_serial_port(keyword=None):
                 desc = f"{port.device} {port.description} {port.hwid} {port.manufacturer} {port.product}".lower()
             else:
                 # Linux/macOS: check device and description
-                desc = f"{port.device} {port.description} {port.hwid}".lower()
+                desc = f"{port.device} {port.description} {port.hwid} {port.manufacturer} {port.product}".lower()
 
             if keyword in desc:
                 return port.device
         return None
     else:
         return ports[0].device
+
 
 if __name__ == "__main__":
     keyword = sys.argv[1] if len(sys.argv) > 1 else None
