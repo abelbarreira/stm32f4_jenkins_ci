@@ -45,6 +45,13 @@ pipeline {
             }
         }
 
+        stage('Verify USB access') {
+            steps {
+                sh 'ls -l /dev/ttyUSB0'
+                sh 'groups'
+            }
+        }
+
         stage('Run Tests') {
             steps {
                 echo "=== Running unit tests on hardware ==="
