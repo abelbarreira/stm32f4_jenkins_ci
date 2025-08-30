@@ -51,3 +51,9 @@ MIT License
 Copyright (c) 2025 abelbarreira
 
 For more, check out the [License File](LICENSE).
+
+## AI-Powered Collaboration
+
+This project is being developed with support and guidance from [ChatGPT](https://chatgpt.com/) and [GitHub Copilot](https://github.com/copilot).
+
+Collaboration started in August 2025.
