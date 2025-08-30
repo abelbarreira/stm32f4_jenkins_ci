@@ -78,9 +78,11 @@ pipeline {
             echo "✅ Build & Tests succeeded!"
         }
         failure {
-            if (fileExists('stm32f4_prj/tests/run_test_commands.log')) {
-                echo "=== Unit Test Log ==="
-                sh 'cat stm32f4_prj/tests/run_test_commands.log'
+            script {
+                if (fileExists('stm32f4_prj/tests/run_test_commands.log')) {
+                    echo "=== Unit Test Log ==="
+                    sh 'cat stm32f4_prj/tests/run_test_commands.log'
+                }
             }
             echo "❌ Build or Tests failed!"
         }
