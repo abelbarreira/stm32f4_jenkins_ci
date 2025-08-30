@@ -84,14 +84,23 @@ $(BUILD)/$(TARGET).elf: $(OBJ)
 	@echo "Flash used: $(shell arm-none-eabi-size -A $@ | grep FLASH | awk '{print $$2}') bytes"
 	@echo "RAM used:   $(shell arm-none-eabi-size -A $@ | grep RAM | awk '{print $$2}') bytes"
 
-# # Flash via OpenOCD
-# flash: all
-# 	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
-# 	        -c "program $(BUILD)/$(TARGET).elf verify reset"
-# Run OpenOCD as a detached daemon
-# pgrep -af openocd, kill 12345
+# Flash via OpenOCD
 flash: all
+	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD)/$(TARGET).elf verify reset"
+
+# Flash via OpenOCD as a detached daemon
+flash_detached: all
 	nohup openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD)/$(TARGET).elf verify reset" > flash.log 2>&1 &
+	pgrep -f openocd | head -n1 > openocd.pid
+	cat openocd.pid
+
+kill_detached_openocd:
+	@if [ -f openocd.pid ]; then \
+	    kill -9 $$(cat openocd.pid) && echo "OpenOCD killed."; \
+	    rm -f openocd.pid; \
+	else \
+	    echo "No openocd.pid file found."; \
+	fi
 
 # Start OpenOCD server
 # start:
@@ -109,9 +118,9 @@ clean:
 	rm -rf $(BUILD)
 
 # Combined rule: clean, build and flash
-do: clean all flash
+do: clean all flash_detached
 
 # Run unit tests build
 test: clean
 	$(MAKE) UNIT_TEST=1 all
-	$(MAKE) flash
+	$(MAKE) flash_detached

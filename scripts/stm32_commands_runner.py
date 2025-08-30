@@ -40,7 +40,6 @@ def send_command(ser: serial.Serial, cmd: str, max_wait: float = 5.0) -> list[st
     while True:
         line = ser.readline().decode(errors="ignore").strip()
         if line:
-            print(f"[RAW] {line}")
             print(f"> {cmd.strip()} | < {line}")
             logging.info(f"CMD: {cmd.strip()} | RESP: {line}")
             response_lines.append(line)
