@@ -16,19 +16,20 @@ pipeline {
             }
         }
 
-        stage('Setup Submodules (CMSIS + HAL)') {
-            steps {
-                echo "=== Setting up Git submodules (CMSIS + HAL) ==="
-                sh 'chmod +x scripts/stm32f4_drivers_add_or_update_subs.sh'
-                sh './scripts/stm32f4_drivers_add_or_update_subs.sh'
-            }
-        }
-
-        stage('Setup Unity Submodule') {
-            steps {
-                echo "=== Setting up Unity test framework submodule ==="
-                sh 'chmod +x scripts/unity_add_or_update_sub.sh'
-                sh './scripts/unity_add_or_update_sub.sh'
+        stage('Setup Submodules') {
+            parallel {
+                stage('CMSIS + HAL') {
+                    steps {
+                        sh 'chmod +x scripts/stm32f4_drivers_add_or_update_subs.sh'
+                        sh './scripts/stm32f4_drivers_add_or_update_subs.sh'
+                    }
+                }
+                stage('Unity') {
+                    steps {
+                        sh 'chmod +x scripts/unity_add_or_update_sub.sh'
+                        sh './scripts/unity_add_or_update_sub.sh'
+                    }
+                }
             }
         }
 
@@ -77,6 +78,10 @@ pipeline {
             echo "✅ Build & Tests succeeded!"
         }
         failure {
+            if (fileExists('stm32f4_prj/tests/run_test_commands.log')) {
+                echo "=== Unit Test Log ==="
+                sh 'cat stm32f4_prj/tests/run_test_commands.log'
+            }
             echo "❌ Build or Tests failed!"
         }
         always {
