@@ -4,7 +4,7 @@ This file tracks outstanding tasks, features, and improvements.
 
 ## ✨ Features
 
-- [ ] Define Windows setup using [Windows Subsystem for Linux (wsl)](https://learn.microsoft.com/en-us/windows/wsl/. Refer to [Docs: Jenkins](docs/jenkins.md)
+- [ ] Define Windows setup using [Windows Subsystem for Linux (wsl)](https://learn.microsoft.com/en-us/windows/wsl/). Refer to [Docs: Jenkins](docs/jenkins.md)
 
 ---
 
