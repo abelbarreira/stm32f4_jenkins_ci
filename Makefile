@@ -89,9 +89,8 @@ flash: all
 
 # Flash via OpenOCD as a detached daemon
 flash_detached: all
-	nohup openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD)/$(TARGET).elf verify reset" > flash.log 2>&1 &
+	nohup openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD)/$(TARGET).elf verify reset" > flash.log 2>&1 & echo $$! > openocd.pid
 	sleep 3
-	pgrep -f openocd | head -n1 > openocd.pid
 	cat openocd.pid
 
 # Kill OpenOCD detached daemon
