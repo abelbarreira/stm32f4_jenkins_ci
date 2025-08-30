@@ -63,6 +63,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Kill OpenOCD detached daemon') {
+            steps {
+                echo "=== Killing OpenOCD detached daemon ==="
+                sh 'make kill_detached_openocd'
+            }
+        }
     }
 
     post {

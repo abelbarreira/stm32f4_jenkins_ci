@@ -1,5 +1,4 @@
 # Provide a temp folder for Windows
-# export TMP := C:/msys64/tmp
 # export TMP := $(shell echo $$TMP)
 TMP ?= /tmp
 export TMP
@@ -94,6 +93,7 @@ flash_detached: all
 	pgrep -f openocd | head -n1 > openocd.pid
 	cat openocd.pid
 
+# Kill OpenOCD detached daemon
 kill_detached_openocd:
 	@if [ -f openocd.pid ]; then \
 	    kill -9 $$(cat openocd.pid) && echo "OpenOCD killed."; \
@@ -101,10 +101,6 @@ kill_detached_openocd:
 	else \
 	    echo "No openocd.pid file found."; \
 	fi
-
-# Start OpenOCD server
-# start:
-#	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
 
 # Debug with GDB
 debug: all
