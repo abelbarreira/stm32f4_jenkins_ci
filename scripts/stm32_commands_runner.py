@@ -27,58 +27,62 @@ import argparse
 from pathlib import Path
 
 
-def send_command(ser: serial.Serial, cmd: str) -> list[str]:
-    """
-    Send a single command to STM32 over UART and return the response lines.
-
-    Reads until a line containing 'OK' or 'ERROR' is received.
-
-    Args:
-        ser (serial.Serial): Open serial connection to STM32.
-        cmd (str): The command string to send (newline added if missing).
-
-    Returns:
-        list[str]: List of decoded response lines from STM32 (without newlines).
-    """
+def send_command(ser: serial.Serial, cmd: str, max_wait: float = 5.0) -> list[str]:
+    """Send a single command and wait for response (max_wait seconds)."""
     if not cmd.endswith("\n"):
-        cmd += "\n"  # Ensure newline terminator
+        cmd += "\n"
 
     ser.write(cmd.encode())
-    time.sleep(0.1)  # Small delay before reading
+    time.sleep(0.1)
 
     response_lines = []
+    start_time = time.time()
     while True:
         line = ser.readline().decode(errors="ignore").strip()
-        if line:  # Only log non-empty lines
+        if line:
+            print(f"[RAW] {line}")
             print(f"> {cmd.strip()} | < {line}")
             logging.info(f"CMD: {cmd.strip()} | RESP: {line}")
             response_lines.append(line)
-            # Stop reading when line contains OK or ERROR
             if "OK" in line or "ERROR" in line:
                 break
-        else:
-            # If timeout occurs, continue reading (or break after some max tries)
-            time.sleep(0.05)
+        if time.time() - start_time > max_wait:
+            print(f"⚠ Timeout waiting for response to '{cmd.strip()}'")
+            logging.warning(f"Timeout waiting for response to '{cmd.strip()}'")
+            break
+        time.sleep(0.05)
     return response_lines
 
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="STM32 UART Test Runner")
-    parser.add_argument("-p", "--port", required=True,
-                        help="Serial port (e.g., COM3, /dev/ttyUSB0)")
-    parser.add_argument("-f", "--file", required=True,
-                        help="Input file with commands (one per line)")
-    parser.add_argument("-b", "--baudrate", type=int, default=115200,
-                        help="Baud rate (default: 115200)")
-    parser.add_argument("-o", "--output", default=None,
-                        help="Optional log file name (default: same as input file but .log extension)")
-    parser.add_argument("--append", action="store_true",
-                        help="Append to existing log instead of overwriting")
+    parser.add_argument(
+        "-p", "--port", required=True, help="Serial port (e.g., COM3, /dev/ttyUSB0)"
+    )
+    parser.add_argument(
+        "-f", "--file", required=True, help="Input file with commands (one per line)"
+    )
+    parser.add_argument(
+        "-b", "--baudrate", type=int, default=115200, help="Baud rate (default: 115200)"
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default=None,
+        help="Optional log file name (default: same as input file but .log extension)",
+    )
+    parser.add_argument(
+        "--append",
+        action="store_true",
+        help="Append to existing log instead of overwriting",
+    )
     return parser.parse_args()
 
 
-def setup_logging(input_file: str, output: str | None = None, append: bool = False) -> Path:
+def setup_logging(
+    input_file: str, output: str | None = None, append: bool = False
+) -> Path:
     """Configure logging system and return the resolved log file path."""
     log_file: Path = Path(output) if output else Path(input_file).with_suffix(".log")
     logging.basicConfig(
@@ -102,7 +106,9 @@ def main() -> None:
             print(f"Connected to STM32F4 on {args.port} @ {args.baudrate} baud")
             logging.info("=== Starting STM32 Unit Test Session ===")
 
-            commands: list[str] = [line.strip() for line in open(args.file) if line.strip()]
+            commands: list[str] = [
+                line.strip() for line in open(args.file) if line.strip()
+            ]
 
             for cmd in commands:
                 send_command(ser, cmd)
