@@ -30,6 +30,15 @@ fi
 
 python -m pipx ensurepath
 
+# Install pip if not present
+if ! command -v pip &> /dev/null; then
+  echo "🔧 Installing pip..."
+  python -m ensurepip --upgrade
+else
+  echo "✅ pip already installed. Upgrading..."
+  python -m pip install --upgrade pip
+fi
+
 # Install pyserial in home directory
 pip install --user pyserial
 
