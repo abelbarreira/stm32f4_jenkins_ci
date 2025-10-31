@@ -1,6 +1,6 @@
 # Setup Windows
 
-The setup for Windows is still under defintion, but, I thin:
+The setup for Windows is still under defintion, but, I think:
 
 - Compilers:
   - A good choice is [MSYS2](https://www.msys2.org/) with [`UCRT64` environment](https://www.msys2.org/docs/environments/#__tabbed_1_1)

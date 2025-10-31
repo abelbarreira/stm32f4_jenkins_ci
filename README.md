@@ -25,6 +25,7 @@ The project will probably end up with a [Docker](https://www.docker.com/) contai
   - Requires [`pyenv`](https://github.com/pyenv/pyenv)
 - `scripts/stm32f4_drivers_add_or_update_subs.sh`
 - `scripts/unity_add_or_update_sub.sh` (for Unity Testing)
+- [Setup Jenkins](docs/jenkins.md)
 
 ## Documentation
 

@@ -5,12 +5,20 @@
   - USB based serial ports might use a name such as `ttyACM0`.
   - All these devices are located under /dev/ directory.
 
-- `dmesg | grep tty`
-- `dmesg | grep -i serial`
+- `sudo dmesg | grep tty`
+- `sudo dmesg | grep -i serial`
 - `sudo dmesg | more`
 - `lsusb`
 - `lsusb -v -s 010`
 - `dmesg | grep -i tty`
+
+With `lsusb`, it should show something like:
+
+- `Bus 003 Device 007: ID 0483:374b STMicroelectronics ST-LINK/V2`
+
+Try simple connection to the board with:
+
+- `openocd -f interface/stlink.cfg -f target/stm32f4x.cfg`
 - `openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "init; reset init; exit"`
 
 ## About UART for Unit Testing Unity results

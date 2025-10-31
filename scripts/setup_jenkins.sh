@@ -14,7 +14,7 @@ echo "[INFO] Updating system..."
 sudo apt update --assume-yes && sudo apt upgrade
 
 echo "[INFO] Installing Java (required by Jenkins)..."
-sudo apt install --assume-yes fontconfig openjdk-17-jre
+sudo apt install --assume-yes fontconfig openjdk-21-jre
 
 echo "[INFO] Adding Jenkins repo and key..."
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
